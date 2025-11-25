@@ -1,19 +1,324 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>github</title>
-    <style>
-        p{
-            color: aqua;
-            background-color: red;
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Simple Shopping App (Bootstrap)</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    /* --- Custom styles (kept minimal) --- */
+    :root{
+      --brand:#0d6efd;
+      --muted:#6c757d;
+    }
+    body{background: #f8f9fa;}
+    .product-card{transition: transform .15s ease, box-shadow .15s ease;}
+    .product-card:hover{transform: translateY(-6px); box-shadow: 0 8px 24px rgba(0,0,0,.08);}
+    .price{font-weight:700;}
+    .badge-sale{position:absolute; top:12px; left:12px; background:#ff6b6b;}
+    .product-img{height:160px; object-fit:cover; border-bottom:1px solid rgba(0,0,0,.04)}
+    .offcanvas-end{width:360px;}
+    .cart-item + .cart-item{border-top:1px solid rgba(0,0,0,.05);}
+    footer{padding:2rem 0; text-align:center; color:var(--muted);}
+    @media (max-width:576px){
+      .product-img{height:140px}
+    }
+  </style>
 </head>
 <body>
-<h1>this is our home page</h1>
-<h2>heheheh</h2>
-<p>lorem30</p>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="#">ShopSimple</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="nav">
+      <form class="d-flex ms-auto me-3" role="search">
+        <input class="form-control" type="search" placeholder="Search products" aria-label="Search" id="searchBox">
+      </form>
+
+      <ul class="navbar-nav align-items-center">
+        <li class="nav-item me-2">
+          <a class="nav-link" href="#">Collections</a>
+        </li>
+        <li class="nav-item">
+          <button class="btn btn-outline-primary position-relative" type="button" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas" aria-controls="cartOffcanvas">
+            <i class="fa fa-shopping-cart"></i>
+            <span id="cartCount" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="py-5 bg-white mb-4">
+  <div class="container d-flex align-items-center justify-content-between">
+    <div>
+      <h1 class="h3 mb-1">Welcome to ShopSimple</h1>
+      <p class="text-muted mb-0">A clean, minimal Bootstrap shopping UI — demo products below. Add items to the cart and review in the side panel.</p>
+    </div>
+    <div>
+      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#checkoutModal">Quick Checkout</button>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<div class="container">
+  <div class="row g-3 mb-3 align-items-center">
+    <div class="col-md-6">
+      <h2 class="h5">Products</h2>
+      <p class="text-muted small mb-0">Showing a handful of sample products.</p>
+    </div>
+    <div class="col-md-6 text-md-end">
+      <div class="btn-group" role="group">
+        <button class="btn btn-outline-secondary btn-sm" id="filterAll">All</button>
+        <button class="btn btn-outline-secondary btn-sm" id="filterSale">On Sale</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-3" id="productsGrid">
+    <!-- product cards (sample) -->
+    <div class="col-sm-6 col-md-4 col-lg-3">
+      <div class="card product-card h-100 position-relative" data-sale="true">
+        <span class="badge badge-sale text-white px-2 py-1 rounded">Sale</span>
+        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format&fit=crop&s=1" class="card-img-top product-img" alt="T-shirt">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title fs-6">Classic Tee</h5>
+          <p class="text-muted small mb-2">Comfortable cotton t-shirt</p>
+          <div class="mt-auto d-flex align-items-center justify-content-between">
+            <div class="price">₹499</div>
+            <button class="btn btn-sm btn-primary add-to-cart" data-id="p1" data-name="Classic Tee" data-price="499">Add</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-md-4 col-lg-3">
+      <div class="card product-card h-100" data-sale="false">
+        <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=1000&auto=format&fit=crop&s=2" class="card-img-top product-img" alt="Sneakers">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title fs-6">Runner Sneakers</h5>
+          <p class="text-muted small mb-2">Lightweight and stylish</p>
+          <div class="mt-auto d-flex align-items-center justify-content-between">
+            <div class="price">₹2,199</div>
+            <button class="btn btn-sm btn-primary add-to-cart" data-id="p2" data-name="Runner Sneakers" data-price="2199">Add</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-md-4 col-lg-3">
+      <div class="card product-card h-100" data-sale="true">
+        <span class="badge badge-sale text-white px-2 py-1 rounded">-20%</span>
+        <img src="https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?q=80&w=1000&auto=format&fit=crop&s=3" class="card-img-top product-img" alt="Backpack">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title fs-6">City Backpack</h5>
+          <p class="text-muted small mb-2">Durable & water-resistant</p>
+          <div class="mt-auto d-flex align-items-center justify-content-between">
+            <div class="price">₹1,499</div>
+            <button class="btn btn-sm btn-primary add-to-cart" data-id="p3" data-name="City Backpack" data-price="1499">Add</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-md-4 col-lg-3">
+      <div class="card product-card h-100" data-sale="false">
+        <img src="https://images.unsplash.com/photo-1526178612142-7f6f5f2f9bca?q=80&w=1000&auto=format&fit=crop&s=4" class="card-img-top product-img" alt="Watch">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title fs-6">Minimal Watch</h5>
+          <p class="text-muted small mb-2">Sleek analog design</p>
+          <div class="mt-auto d-flex align-items-center justify-content-between">
+            <div class="price">₹3,299</div>
+            <button class="btn btn-sm btn-primary add-to-cart" data-id="p4" data-name="Minimal Watch" data-price="3299">Add</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- add more sample cards as needed -->
+  </div>
+</div>
+
+<!-- CART OFFCANVAS -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="cartOffcanvas" aria-labelledby="cartOffcanvasLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="cartOffcanvasLabel">Your Cart</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body d-flex flex-column">
+    <div id="cartItems" class="mb-3">
+      <p class="text-muted">Cart is empty — add some products.</p>
+    </div>
+
+    <div class="mt-auto">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <strong>Total</strong>
+        <strong id="cartTotal">₹0</strong>
+      </div>
+      <button class="btn btn-success w-100" id="btnCheckout">Proceed to Checkout</button>
+    </div>
+  </div>
+</div>
+
+<!-- CHECKOUT MODAL (simple demo) -->
+<div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="checkoutModalLabel">Quick Checkout</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="small text-muted">This demo does not process payments. It just shows the cart total.</p>
+        <div class="d-flex justify-content-between mb-2">
+          <div class="text-muted">Items:</div>
+          <div id="modalItemsCount">0</div>
+        </div>
+        <div class="d-flex justify-content-between fw-bold fs-5">
+          <div>Total</div>
+          <div id="modalTotal">₹0</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="confirmCheckout">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="mt-5">
+  <div class="container">
+    <small>Made with Bootstrap • Demo shopping UI</small>
+  </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Minimal cart functionality (client-side demo)
+  const cart = {};
+  const cartItemsEl = document.getElementById('cartItems');
+  const cartTotalEl = document.getElementById('cartTotal');
+  const cartCountEl = document.getElementById('cartCount');
+  const modalItemsCount = document.getElementById('modalItemsCount');
+  const modalTotal = document.getElementById('modalTotal');
+
+  function renderCart(){
+    const items = Object.values(cart);
+    cartItemsEl.innerHTML = '';
+    if(items.length === 0){
+      cartItemsEl.innerHTML = '<p class="text-muted">Cart is empty — add some products.</p>';
+      cartTotalEl.textContent = '₹0';
+      cartCountEl.textContent = '0';
+      modalItemsCount.textContent = '0';
+      modalTotal.textContent = '₹0';
+      return;
+    }
+
+    let total = 0;
+    items.forEach(it=>{
+      total += it.price * it.qty;
+      const node = document.createElement('div');
+      node.className = 'd-flex align-items-center justify-content-between py-3 cart-item';
+      node.innerHTML = `
+        <div>
+          <div class="fw-semibold">${it.name}</div>
+          <div class="text-muted small">₹${it.price} x ${it.qty}</div>
+        </div>
+        <div class="text-end">
+          <div class="btn-group btn-group-sm" role="group">
+            <button class="btn btn-outline-secondary" data-action="dec" data-id="${it.id}">-</button>
+            <button class="btn btn-outline-secondary" data-action="inc" data-id="${it.id}">+</button>
+            <button class="btn btn-link text-danger small" data-action="rem" data-id="${it.id}">Remove</button>
+          </div>
+        </div>
+      `;
+      cartItemsEl.appendChild(node);
+    });
+
+    cartTotalEl.textContent = '₹' + total;
+    cartCountEl.textContent = items.reduce((s,i)=>s+i.qty,0);
+    modalItemsCount.textContent = items.reduce((s,i)=>s+i.qty,0);
+    modalTotal.textContent = '₹' + total;
+  }
+
+  // add-to-cart buttons
+  document.querySelectorAll('.add-to-cart').forEach(btn=>{
+    btn.addEventListener('click', (e)=>{
+      const id = btn.dataset.id;
+      const name = btn.dataset.name;
+      const price = Number(btn.dataset.price);
+      if(!cart[id]) cart[id] = {id,name,price,qty:0};
+      cart[id].qty += 1;
+      renderCart();
+      // open offcanvas when item added (optional)
+      const offcanvas = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('cartOffcanvas'));
+      offcanvas.show();
+    });
+  });
+
+  // cart actions (inc/dec/remove)
+  cartItemsEl.addEventListener('click', (e)=>{
+    const action = e.target.dataset.action;
+    const id = e.target.dataset.id;
+    if(!action || !id) return;
+    if(action === 'inc') cart[id].qty +=1;
+    if(action === 'dec') cart[id].qty = Math.max(0, cart[id].qty -1);
+    if(action === 'rem') delete cart[id];
+    // remove if qty 0
+    Object.keys(cart).forEach(k=>{ if(cart[k].qty === 0) delete cart[k]; });
+    renderCart();
+  });
+
+  // simple search filter
+  document.getElementById('searchBox').addEventListener('input', (e)=>{
+    const q = e.target.value.toLowerCase();
+    document.querySelectorAll('#productsGrid .card').forEach(card=>{
+      const title = card.querySelector('.card-title').textContent.toLowerCase();
+      card.parentElement.style.display = title.includes(q) ? '' : 'none';
+    });
+  });
+
+  // filter sale
+  document.getElementById('filterSale').addEventListener('click', ()=>{
+    document.querySelectorAll('#productsGrid .card').forEach(card=>{
+      card.parentElement.style.display = card.dataset.sale === 'true' ? '' : 'none';
+    });
+  });
+  document.getElementById('filterAll').addEventListener('click', ()=>{
+    document.querySelectorAll('#productsGrid .card').forEach(card=>{ card.parentElement.style.display = ''; });
+  });
+
+  // checkout demo
+  document.getElementById('btnCheckout').addEventListener('click', ()=>{
+    const off = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('cartOffcanvas'));
+    off.hide();
+    const md = new bootstrap.Modal(document.getElementById('checkoutModal'));
+    md.show();
+  });
+
+  document.getElementById('confirmCheckout').addEventListener('click', ()=>{
+    // demo: clear cart
+    for(const k in cart) delete cart[k];
+    renderCart();
+    const md = bootstrap.Modal.getInstance(document.getElementById('checkoutModal'));
+    md.hide();
+    alert('Order placed (demo) — thank you!');
+  });
+
+  // init
+  renderCart();
+</script>
 </body>
 </html>
