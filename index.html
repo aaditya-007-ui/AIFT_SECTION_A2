@@ -1,324 +1,393 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Simple Shopping App (Bootstrap)</title>
-  <!-- Bootstrap CSS -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Happy Birthday Kaviya 🎉</title>
+
+  <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Parisienne&family=Montserrat:wght@300;600;800&display=swap" rel="stylesheet">
+
   <style>
-    /* --- Custom styles (kept minimal) --- */
+    /* ---------- Basic styling ---------- */
     :root{
-      --brand:#0d6efd;
-      --muted:#6c757d;
+      --bg1: #ffeef8;
+      --bg2: #fff5fb;
+      --accent: #ff4d8a;
+      --accent-dark: #c0355e;
+      --gold: #ffd166;
+      --glass: rgba(255,255,255,0.6);
     }
-    body{background: #f8f9fa;}
-    .product-card{transition: transform .15s ease, box-shadow .15s ease;}
-    .product-card:hover{transform: translateY(-6px); box-shadow: 0 8px 24px rgba(0,0,0,.08);}
-    .price{font-weight:700;}
-    .badge-sale{position:absolute; top:12px; left:12px; background:#ff6b6b;}
-    .product-img{height:160px; object-fit:cover; border-bottom:1px solid rgba(0,0,0,.04)}
-    .offcanvas-end{width:360px;}
-    .cart-item + .cart-item{border-top:1px solid rgba(0,0,0,.05);}
-    footer{padding:2rem 0; text-align:center; color:var(--muted);}
+    html,body{
+      height:100%;
+      margin:0;
+      font-family: 'Montserrat', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: radial-gradient(1200px 700px at 10% 10%, #fff0f6 0%, var(--bg1) 20%, var(--bg2) 55%);
+      overflow-x:hidden;
+      color:#46233a;
+    }
+
+    /* ---------- Center container ---------- */
+    .hero {
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:3rem 1rem;
+      position:relative;
+    }
+
+    .card-wish{
+      width:100%;
+      max-width:1100px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.75));
+      border-radius:20px;
+      box-shadow: 0 12px 35px rgba(111,25,60,0.12);
+      padding:2.2rem;
+      position:relative;
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,0.6);
+      backdrop-filter: blur(6px);
+    }
+
+    /* ---------- Headline ---------- */
+    .headline {
+      font-family: 'Parisienne', cursive;
+      font-size:3.2rem;
+      letter-spacing:1px;
+      color:var(--accent-dark);
+      text-align:center;
+      margin-bottom:0.25rem;
+      text-shadow: 0 6px 18px rgba(255,77,138,0.12);
+      transform-origin:center;
+      animation: floatTitle 4s ease-in-out infinite;
+    }
+    @keyframes floatTitle{
+      0%,100%{ transform: translateY(0) }
+      50%{ transform: translateY(-8px) }
+    }
+
+    .subtext {
+      text-align:center;
+      color:#6b3b4b;
+      margin-bottom:1.25rem;
+      font-weight:600;
+    }
+
+    /* ---------- Cake ---------- */
+    .cake {
+      width: 220px;
+      margin: 0 auto;
+      position: relative;
+      transform-origin:center;
+      animation: cake-bob 3.5s ease-in-out infinite;
+    }
+    @keyframes cake-bob{
+      0%,100%{ transform: translateY(0) }
+      50%{ transform: translateY(-10px) }
+    }
+
+    .cake .layer {
+      border-radius:14px;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+      margin: 6px 0;
+      position:relative;
+    }
+    .layer.top { height:34px; background: linear-gradient(90deg,#fff,#fff8f2); border:3px solid #ffd9c7; }
+    .layer.mid { height:42px; background: linear-gradient(90deg,#ffe6f0,#ffefef); border:3px solid #ffd9c7; }
+    .layer.bot { height:56px; background: linear-gradient(90deg,#ffdfe8,#ffe9f0); border:3px solid #ffd9c7; }
+
+    /* candle */
+    .candle {
+      width:10px;
+      height:34px;
+      background: linear-gradient(180deg,#ffe87a,#ffefc2);
+      border-radius:3px;
+      position:absolute;
+      left:50%;
+      transform:translateX(-50%);
+      top:-36px;
+      box-shadow: 0 6px 10px rgba(0,0,0,0.08);
+      border:1px solid rgba(0,0,0,0.04);
+    }
+    .flame {
+      position:absolute;
+      top:-18px;
+      left:50%;
+      transform:translateX(-50%);
+      width:12px;
+      height:18px;
+      background: radial-gradient(circle at 40% 35%, #ffd86a 0%, #ff6f6f 60%);
+      clip-path: polygon(50% 0, 62% 30%, 50% 100%, 38% 30%);
+      filter: drop-shadow(0 4px 6px rgba(255,111,111,0.25));
+      animation: flame-flicker 0.35s infinite;
+    }
+    @keyframes flame-flicker{
+      0%{ transform: translateX(-50%) scale(1) translateY(0) }
+      50%{ transform: translateX(-50%) scale(0.92) translateY(-3px) }
+      100%{ transform: translateX(-50%) scale(1) translateY(0) }
+    }
+
+    /* ---------- Floating hearts ---------- */
+    .heart {
+      position: absolute;
+      bottom: -30px;
+      width: 28px;
+      height: 28px;
+      transform: rotate(-45deg);
+      background: var(--accent);
+      border-radius: 6px 6px 0 0;
+      opacity:0.95;
+      animation: rise 8s linear infinite;
+      box-shadow: 0 6px 14px rgba(199,37,82,0.15);
+      display:inline-block;
+    }
+    .heart:before,
+    .heart:after {
+      content: "";
+      position: absolute;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+    .heart:before { top: -14px; left: 0; }
+    .heart:after { left: 14px; top: 0; }
+
+    /* each heart will get random animation via inline style */
+    @keyframes rise {
+      0% { transform: translateY(0) scale(0.9) rotate(-45deg); opacity: 0.0; }
+      10% { opacity: 0.9; }
+      50% { transform: translateY(-50vh) scale(1.05) rotate(-25deg); }
+      100% { transform: translateY(-110vh) scale(0.7) rotate(10deg); opacity: 0; }
+    }
+
+    /* small decorative hearts inside card */
+    .tiny-heart{
+      display:inline-block;
+      width:18px;height:18px; transform:rotate(-45deg);
+      background: linear-gradient(180deg,#ff74a4,#ff3670);
+      border-radius:4px 4px 0 0;
+      margin:0 6px;
+    }
+    .tiny-heart:before,.tiny-heart:after{ content:""; position:absolute; border-radius:50%; }
+
+    /* ---------- Confetti (burst) ---------- */
+    .confetti-piece {
+      position:absolute;
+      width:10px; height:16px;
+      opacity:0;
+      transform-origin:center;
+    }
+    @keyframes confetti-fly {
+      0% { transform: translateY(0) rotate(0) scale(1); opacity:1; }
+      100% { transform: translateY(420px) rotate(720deg) scale(0.8); opacity:0; }
+    }
+
+    /* ---------- Buttons ---------- */
+    .btn-accent {
+      background: linear-gradient(90deg,var(--accent), var(--accent-dark));
+      color:white;
+      font-weight:700;
+      border-radius:50px;
+      padding: 10px 20px;
+      box-shadow: 0 8px 20px rgba(255,77,138,0.18);
+      border: none;
+    }
+    .btn-outline {
+      border:2px dashed rgba(255,77,138,0.18);
+      color:var(--accent-dark);
+      background:transparent;
+      font-weight:700;
+      border-radius:999px;
+      padding: 8px 18px;
+    }
+
+    /* ---------- Footer ---------- */
+    .footer-note { text-align:center; margin-top:1.2rem; opacity:0.9; color:#6b3b4b; }
+
+    /* ---------- Responsive tweaks ---------- */
     @media (max-width:576px){
-      .product-img{height:140px}
+      .headline { font-size:2.2rem; }
+      .card-wish { padding:1.25rem; border-radius:16px; }
+      .cake { width:160px; }
     }
   </style>
 </head>
 <body>
 
-<!-- NAVBAR -->
-<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
-  <div class="container">
-    <a class="navbar-brand fw-bold" href="#">ShopSimple</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="nav">
-      <form class="d-flex ms-auto me-3" role="search">
-        <input class="form-control" type="search" placeholder="Search products" aria-label="Search" id="searchBox">
-      </form>
-
-      <ul class="navbar-nav align-items-center">
-        <li class="nav-item me-2">
-          <a class="nav-link" href="#">Collections</a>
-        </li>
-        <li class="nav-item">
-          <button class="btn btn-outline-primary position-relative" type="button" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas" aria-controls="cartOffcanvas">
-            <i class="fa fa-shopping-cart"></i>
-            <span id="cartCount" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
-          </button>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
-
-<!-- HERO -->
-<section class="py-5 bg-white mb-4">
-  <div class="container d-flex align-items-center justify-content-between">
-    <div>
-      <h1 class="h3 mb-1">Welcome to ShopSimple</h1>
-      <p class="text-muted mb-0">A clean, minimal Bootstrap shopping UI — demo products below. Add items to the cart and review in the side panel.</p>
-    </div>
-    <div>
-      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#checkoutModal">Quick Checkout</button>
-    </div>
-  </div>
-</section>
-
-<!-- PRODUCTS -->
-<div class="container">
-  <div class="row g-3 mb-3 align-items-center">
-    <div class="col-md-6">
-      <h2 class="h5">Products</h2>
-      <p class="text-muted small mb-0">Showing a handful of sample products.</p>
-    </div>
-    <div class="col-md-6 text-md-end">
-      <div class="btn-group" role="group">
-        <button class="btn btn-outline-secondary btn-sm" id="filterAll">All</button>
-        <button class="btn btn-outline-secondary btn-sm" id="filterSale">On Sale</button>
+  <section class="hero">
+    <div class="card-wish">
+      <!-- Floating small hearts in top-right corner -->
+      <div style="position:absolute; right:22px; top:22px;">
+        <span class="tiny-heart" style="background:linear-gradient(180deg,#ff9bbd,#ff5f98); width:18px; height:18px; display:inline-block; border-radius:4px 4px 0 0; transform:rotate(-45deg); margin-right:6px;"></span>
+        <span class="tiny-heart" style="background:linear-gradient(180deg,#ffd1ea,#ff7ab2); width:14px; height:14px; display:inline-block; transform:rotate(-45deg);"></span>
       </div>
-    </div>
-  </div>
 
-  <div class="row g-3" id="productsGrid">
-    <!-- product cards (sample) -->
-    <div class="col-sm-6 col-md-4 col-lg-3">
-      <div class="card product-card h-100 position-relative" data-sale="true">
-        <span class="badge badge-sale text-white px-2 py-1 rounded">Sale</span>
-        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format&fit=crop&s=1" class="card-img-top product-img" alt="T-shirt">
-        <div class="card-body d-flex flex-column">
-          <h5 class="card-title fs-6">Classic Tee</h5>
-          <p class="text-muted small mb-2">Comfortable cotton t-shirt</p>
-          <div class="mt-auto d-flex align-items-center justify-content-between">
-            <div class="price">₹499</div>
-            <button class="btn btn-sm btn-primary add-to-cart" data-id="p1" data-name="Classic Tee" data-price="499">Add</button>
+      <!-- Main content row -->
+      <div class="row align-items-center gy-3">
+        <!-- Left: Message -->
+        <div class="col-lg-6 text-center text-lg-start">
+          <h1 class="headline">Happy Birthday, Kaviya! ❤️</h1>
+          <p class="subtext">To the brightest smile, sweetest heart, and most amazing girlfriend — today is all about you.</p>
+
+          <p style="font-size:1rem; max-width:520px;">
+            May your day be full of sweet surprises, warm hugs, and unforgettable moments. I love you more than words — here's a little page just for you. ✨
+          </p>
+
+          <div class="mt-4 d-flex flex-column flex-sm-row gap-3 justify-content-center justify-content-lg-start">
+            <button id="btnConfetti" class="btn btn-accent btn-lg" aria-label="Celebrate!">Celebrate 🎉</button>
+            <button id="btnMessage" class="btn btn-outline" aria-label="Reveal message">A love note</button>
+          </div>
+
+          <p class="footer-note mt-3">Made with ♥ and a few lines of code.</p>
+        </div>
+
+        <!-- Right: cake + hearts -->
+        <div class="col-lg-6 text-center">
+          <div class="cake" aria-hidden="true" role="img" title="Birthday cake">
+            <div class="layer bot" style="width:220px;"></div>
+            <div class="layer mid" style="width:190px; margin-left:auto; margin-right:auto;"></div>
+            <div class="layer top" style="width:150px; margin-left:auto; margin-right:auto; position:relative;">
+              <div class="candle" style="left:50%;">
+                <div class="flame"></div>
+              </div>
+            </div>
+            <div style="margin-top:12px;">
+              <strong style="font-size:1.1rem; display:block">Happy Birthday</strong>
+              <div style="font-weight:700; color:var(--accent-dark); font-size:1.25rem;">Kaviya 💖</div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="col-sm-6 col-md-4 col-lg-3">
-      <div class="card product-card h-100" data-sale="false">
-        <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=1000&auto=format&fit=crop&s=2" class="card-img-top product-img" alt="Sneakers">
-        <div class="card-body d-flex flex-column">
-          <h5 class="card-title fs-6">Runner Sneakers</h5>
-          <p class="text-muted small mb-2">Lightweight and stylish</p>
-          <div class="mt-auto d-flex align-items-center justify-content-between">
-            <div class="price">₹2,199</div>
-            <button class="btn btn-sm btn-primary add-to-cart" data-id="p2" data-name="Runner Sneakers" data-price="2199">Add</button>
-          </div>
+      <!-- Confetti container (absolute within card) -->
+      <div id="confettiContainer" style="position:absolute; inset:0; pointer-events:none;"></div>
+
+      <!-- Floating hearts generator container -->
+      <div id="heartsWrap" aria-hidden="true"></div>
+
+    </div>
+  </section>
+
+  <!-- Optional small love note modal -->
+  <div class="modal fade" id="noteModal" tabindex="-1" aria-labelledby="noteLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="border-radius:16px;">
+        <div class="modal-header">
+          <h5 class="modal-title" id="noteLabel">A little love note for Kaviya</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" style="font-size:1rem;">
+          <p>Every day with you feels like a small celebration. Thank you for being exactly who you are — kind, brilliant and beautiful. I hope this year gives you a thousand reasons to smile.</p>
+          <p style="font-weight:700; margin-top:0.6rem;">— With all my love 💕</p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-accent" data-bs-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
-
-    <div class="col-sm-6 col-md-4 col-lg-3">
-      <div class="card product-card h-100" data-sale="true">
-        <span class="badge badge-sale text-white px-2 py-1 rounded">-20%</span>
-        <img src="https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?q=80&w=1000&auto=format&fit=crop&s=3" class="card-img-top product-img" alt="Backpack">
-        <div class="card-body d-flex flex-column">
-          <h5 class="card-title fs-6">City Backpack</h5>
-          <p class="text-muted small mb-2">Durable & water-resistant</p>
-          <div class="mt-auto d-flex align-items-center justify-content-between">
-            <div class="price">₹1,499</div>
-            <button class="btn btn-sm btn-primary add-to-cart" data-id="p3" data-name="City Backpack" data-price="1499">Add</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-sm-6 col-md-4 col-lg-3">
-      <div class="card product-card h-100" data-sale="false">
-        <img src="https://images.unsplash.com/photo-1526178612142-7f6f5f2f9bca?q=80&w=1000&auto=format&fit=crop&s=4" class="card-img-top product-img" alt="Watch">
-        <div class="card-body d-flex flex-column">
-          <h5 class="card-title fs-6">Minimal Watch</h5>
-          <p class="text-muted small mb-2">Sleek analog design</p>
-          <div class="mt-auto d-flex align-items-center justify-content-between">
-            <div class="price">₹3,299</div>
-            <button class="btn btn-sm btn-primary add-to-cart" data-id="p4" data-name="Minimal Watch" data-price="3299">Add</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- add more sample cards as needed -->
   </div>
-</div>
 
-<!-- CART OFFCANVAS -->
-<div class="offcanvas offcanvas-end" tabindex="-1" id="cartOffcanvas" aria-labelledby="cartOffcanvasLabel">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="cartOffcanvasLabel">Your Cart</h5>
-    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body d-flex flex-column">
-    <div id="cartItems" class="mb-3">
-      <p class="text-muted">Cart is empty — add some products.</p>
-    </div>
+  <!-- Bootstrap 5 JS + Popper (for modal) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-    <div class="mt-auto">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <strong>Total</strong>
-        <strong id="cartTotal">₹0</strong>
-      </div>
-      <button class="btn btn-success w-100" id="btnCheckout">Proceed to Checkout</button>
-    </div>
-  </div>
-</div>
+  <script>
+    /* ---------- Floating hearts generator ---------- */
+    (function createHearts(){
+      const wrap = document.getElementById('heartsWrap');
+      const colors = ['#ff4d8a','#ff7ab2','#ff9bbd','#ff6f8a','#ffd1ea'];
+      const count = 12;
+      for(let i=0;i<count;i++){
+        const h = document.createElement('div');
+        h.className = 'heart';
+        const size = 16 + Math.round(Math.random()*28);
+        h.style.width = h.style.height = size + 'px';
+        // set pseudo elements sizes using transform scale via CSS var fallback
+        h.style.left = Math.round(Math.random()*100) + 'vw';
+        h.style.bottom = -40 - Math.round(Math.random()*60) + 'px';
+        h.style.background = colors[Math.floor(Math.random()*colors.length)];
+        // random animation delay and duration
+        const dur = 6 + Math.random()*8;
+        const delay = -Math.random()*10;
+        h.style.animationDuration = dur + 's';
+        h.style.animationDelay = delay + 's';
+        // random opacity and transform
+        h.style.opacity = (0.7 + Math.random()*0.4);
+        // random scaling (affects pseudo elements as well)
+        h.style.transform = 'rotate(-45deg) scale(' + (0.8 + Math.random()*0.6) + ')';
+        // set z-index
+        h.style.zIndex = 2;
+        wrap.appendChild(h);
+      }
+    })();
 
-<!-- CHECKOUT MODAL (simple demo) -->
-<div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="checkoutModalLabel">Quick Checkout</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <p class="small text-muted">This demo does not process payments. It just shows the cart total.</p>
-        <div class="d-flex justify-content-between mb-2">
-          <div class="text-muted">Items:</div>
-          <div id="modalItemsCount">0</div>
-        </div>
-        <div class="d-flex justify-content-between fw-bold fs-5">
-          <div>Total</div>
-          <div id="modalTotal">₹0</div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="confirmCheckout">Confirm</button>
-      </div>
-    </div>
-  </div>
-</div>
+    /* ---------- Confetti burst on button click ---------- */
+    function createConfettiBurst(x, y, count = 36){
+      const container = document.getElementById('confettiContainer');
+      const colors = ['#ff4d8a','#ffd166','#ff8fb5','#ffd1ea','#ffc4a3','#bde0fe'];
+      for(let i=0;i<count;i++){
+        const piece = document.createElement('div');
+        piece.className = 'confetti-piece';
+        const w = 6 + Math.random()*14;
+        const h = 8 + Math.random()*18;
+        piece.style.width = w + 'px';
+        piece.style.height = h + 'px';
+        piece.style.left = (x - 20 + Math.random()*40) + 'px';
+        piece.style.top = (y - 20 + Math.random()*40) + 'px';
+        piece.style.background = colors[Math.floor(Math.random()*colors.length)];
+        piece.style.borderRadius = (Math.random()>0.5? '2px':'50%');
+        piece.style.opacity = 1;
+        // animate
+        const dur = 800 + Math.random()*800;
+        piece.style.transition = 'transform ' + (dur/1000) + 's cubic-bezier(.2,.9,.2,1), opacity ' + (dur/1000) + 's linear';
+        container.appendChild(piece);
 
-<footer class="mt-5">
-  <div class="container">
-    <small>Made with Bootstrap • Demo shopping UI</small>
-  </div>
-</footer>
+        // force reflow then set transform to fly outward
+        requestAnimationFrame(() => {
+          const tx = (Math.random()-0.5) * 600;
+          const ty = 120 + Math.random() * 500;
+          const rot = (Math.random()*1080) * (Math.random()>0.5?1:-1);
+          piece.style.transform = 'translate(' + tx + 'px,' + ty + 'px) rotate(' + rot + 'deg) scale(0.9)';
+          piece.style.opacity = 0;
+        });
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-  // Minimal cart functionality (client-side demo)
-  const cart = {};
-  const cartItemsEl = document.getElementById('cartItems');
-  const cartTotalEl = document.getElementById('cartTotal');
-  const cartCountEl = document.getElementById('cartCount');
-  const modalItemsCount = document.getElementById('modalItemsCount');
-  const modalTotal = document.getElementById('modalTotal');
-
-  function renderCart(){
-    const items = Object.values(cart);
-    cartItemsEl.innerHTML = '';
-    if(items.length === 0){
-      cartItemsEl.innerHTML = '<p class="text-muted">Cart is empty — add some products.</p>';
-      cartTotalEl.textContent = '₹0';
-      cartCountEl.textContent = '0';
-      modalItemsCount.textContent = '0';
-      modalTotal.textContent = '₹0';
-      return;
+        // cleanup
+        setTimeout(()=>{ piece.remove(); }, 1800 + Math.random()*800);
+      }
     }
 
-    let total = 0;
-    items.forEach(it=>{
-      total += it.price * it.qty;
-      const node = document.createElement('div');
-      node.className = 'd-flex align-items-center justify-content-between py-3 cart-item';
-      node.innerHTML = `
-        <div>
-          <div class="fw-semibold">${it.name}</div>
-          <div class="text-muted small">₹${it.price} x ${it.qty}</div>
-        </div>
-        <div class="text-end">
-          <div class="btn-group btn-group-sm" role="group">
-            <button class="btn btn-outline-secondary" data-action="dec" data-id="${it.id}">-</button>
-            <button class="btn btn-outline-secondary" data-action="inc" data-id="${it.id}">+</button>
-            <button class="btn btn-link text-danger small" data-action="rem" data-id="${it.id}">Remove</button>
-          </div>
-        </div>
-      `;
-      cartItemsEl.appendChild(node);
+    // handle button
+    document.getElementById('btnConfetti').addEventListener('click', function(e){
+      // find coordinates relative to confetti container
+      const container = document.getElementById('confettiContainer');
+      const rect = container.getBoundingClientRect();
+      // use center-top area for nice burst
+      const x = rect.width * 0.5;
+      const y = rect.height * 0.18;
+      createConfettiBurst(x, y, 40);
+
+      // small extra bursts near where clicked
+      createConfettiBurst(x-120, y+60, 18);
+      createConfettiBurst(x+120, y+60, 18);
+      // gentle pulse on the button
+      this.animate([{ transform: 'scale(1)'},{ transform:'scale(1.05)'},{ transform:'scale(1)' }], { duration:600, easing:'ease-out' });
     });
 
-    cartTotalEl.textContent = '₹' + total;
-    cartCountEl.textContent = items.reduce((s,i)=>s+i.qty,0);
-    modalItemsCount.textContent = items.reduce((s,i)=>s+i.qty,0);
-    modalTotal.textContent = '₹' + total;
-  }
-
-  // add-to-cart buttons
-  document.querySelectorAll('.add-to-cart').forEach(btn=>{
-    btn.addEventListener('click', (e)=>{
-      const id = btn.dataset.id;
-      const name = btn.dataset.name;
-      const price = Number(btn.dataset.price);
-      if(!cart[id]) cart[id] = {id,name,price,qty:0};
-      cart[id].qty += 1;
-      renderCart();
-      // open offcanvas when item added (optional)
-      const offcanvas = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('cartOffcanvas'));
-      offcanvas.show();
+    /* ---------- Love note modal ---------- */
+    document.getElementById('btnMessage').addEventListener('click', function(){
+      const modal = new bootstrap.Modal(document.getElementById('noteModal'));
+      modal.show();
     });
-  });
 
-  // cart actions (inc/dec/remove)
-  cartItemsEl.addEventListener('click', (e)=>{
-    const action = e.target.dataset.action;
-    const id = e.target.dataset.id;
-    if(!action || !id) return;
-    if(action === 'inc') cart[id].qty +=1;
-    if(action === 'dec') cart[id].qty = Math.max(0, cart[id].qty -1);
-    if(action === 'rem') delete cart[id];
-    // remove if qty 0
-    Object.keys(cart).forEach(k=>{ if(cart[k].qty === 0) delete cart[k]; });
-    renderCart();
-  });
-
-  // simple search filter
-  document.getElementById('searchBox').addEventListener('input', (e)=>{
-    const q = e.target.value.toLowerCase();
-    document.querySelectorAll('#productsGrid .card').forEach(card=>{
-      const title = card.querySelector('.card-title').textContent.toLowerCase();
-      card.parentElement.style.display = title.includes(q) ? '' : 'none';
+    /* ---------- Keyboard shortcut: press 'k' to trigger confetti ---------- */
+    document.addEventListener('keydown', (e)=>{
+      if(e.key.toLowerCase() === 'k') document.getElementById('btnConfetti').click();
     });
-  });
+  </script>
 
-  // filter sale
-  document.getElementById('filterSale').addEventListener('click', ()=>{
-    document.querySelectorAll('#productsGrid .card').forEach(card=>{
-      card.parentElement.style.display = card.dataset.sale === 'true' ? '' : 'none';
-    });
-  });
-  document.getElementById('filterAll').addEventListener('click', ()=>{
-    document.querySelectorAll('#productsGrid .card').forEach(card=>{ card.parentElement.style.display = ''; });
-  });
-
-  // checkout demo
-  document.getElementById('btnCheckout').addEventListener('click', ()=>{
-    const off = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('cartOffcanvas'));
-    off.hide();
-    const md = new bootstrap.Modal(document.getElementById('checkoutModal'));
-    md.show();
-  });
-
-  document.getElementById('confirmCheckout').addEventListener('click', ()=>{
-    // demo: clear cart
-    for(const k in cart) delete cart[k];
-    renderCart();
-    const md = bootstrap.Modal.getInstance(document.getElementById('checkoutModal'));
-    md.hide();
-    alert('Order placed (demo) — thank you!');
-  });
-
-  // init
-  renderCart();
-</script>
 </body>
 </html>
